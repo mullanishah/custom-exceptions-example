@@ -1,7 +1,6 @@
 package com.core.pojo;
 
 import java.util.Date;
-
 import com.core.utils.StringUtils;
 
 public class BankAccount {

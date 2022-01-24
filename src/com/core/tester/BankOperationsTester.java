@@ -1,7 +1,6 @@
 package com.core.tester;
 
 import java.util.Scanner;
-
 import com.core.exceptions.AccountHandlingException;
 import com.core.pojo.BankAccount;
 import com.core.service.BankAccountOperationsImpl;
@@ -22,7 +21,7 @@ public class BankOperationsTester {
 				choice = scanner.nextInt();
 				switch(choice) {
 				case 1:
-					System.out.println(validatedBankAccount);
+					BankAccountOperationsImpl.enrichBankDetails(validatedBankAccount);
 					break;
 				case 2:
 					System.out.println("Account Num: " + validatedBankAccount.getAccountNumber());

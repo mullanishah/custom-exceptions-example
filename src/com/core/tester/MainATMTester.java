@@ -1,7 +1,6 @@
 package com.core.tester;
 
 import java.util.Scanner;
-
 import com.core.pojo.BankAccount;
 import com.core.utils.StringUtils;
 

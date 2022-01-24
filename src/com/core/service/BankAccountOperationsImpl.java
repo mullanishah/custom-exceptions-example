@@ -1,13 +1,14 @@
 package com.core.service;
 
 import static com.core.utils.DataHandlingUtils.*;
-
 import java.text.ParseException;
-
+import java.util.HashMap;
+import java.util.Map;
 import com.core.exceptions.AccountHandlingException;
 import com.core.pojo.BankAccount;
 import com.core.pojo.PaymentCard;
 import com.core.utils.AccountValidationUtils;
+import com.core.utils.StringUtils;
 
 public class BankAccountOperationsImpl implements BankAccountOperations {
 
@@ -34,9 +35,17 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 	}
 
 	@Override
-	public void fundTransfer(long cardNumber, int pinNumber) throws AccountHandlingException {
-		// TODO Auto-generated method stub
+	public HashMap<String, Double> fundTransfer(BankAccount sourceAccount, BankAccount destinationAccount, double amount) 
+				throws AccountHandlingException, ParseException, Exception {
 		
+		Double updatedDestinationBalance = null;
+		//withdraw amt from source account
+		double updatedSourceBalance = withdrawAmount(sourceAccount, amount);
+		if(updatedSourceBalance > -1) {
+			//deposit amt to destination account
+			updatedDestinationBalance = depositeAmount(destinationAccount, amount);
+		}
+		return new HashMap<String, Double>(Map.of("updatedSourceBalance", updatedSourceBalance, "updatedDestinationBalance", updatedDestinationBalance));
 	}
 
 	public static BankAccount getAccountDetails(PaymentCard paymentCard) {
@@ -57,6 +66,7 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 	}
 	
 	public static Double depositeAmount(BankAccount validatedBankAccount, double amount) throws Exception {
+		
 		BankAccount updatedAccount = new BankAccountOperationsImpl().deposite(validatedBankAccount, amount);
 		if(updatedAccount == null) {
 			throw new AccountHandlingException("Something went wrong during deposite, please try again later.");
@@ -67,23 +77,20 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 	}
 	
 	public static BankAccount fundTransferAmount(BankAccount sourceAccount, Long destinationAccountNum, double amount) throws Exception {
-		Double updatedDestinationBalance = null;
+		
 		//get destination account details
 		BankAccount destinationAccount = getAccountDetails(destinationAccountNum);
 		
-		//withdraw amt from source account
-		double updatedSourceBalance = withdrawAmount(sourceAccount, amount);
-		if(updatedSourceBalance > -1) {
-			//deposite amt to destination account
-			updatedDestinationBalance = depositeAmount(destinationAccount, amount);
-		}
-		if(updatedDestinationBalance == destinationAccount.getBalance() && updatedSourceBalance == sourceAccount.getBalance()) {
+		HashMap<String, Double> resultMap = new BankAccountOperationsImpl().fundTransfer(sourceAccount, destinationAccount, amount);
+		
+		if(resultMap.get("updatedDestinationBalance") == destinationAccount.getBalance() && resultMap.get("updatedSourceBalance") == sourceAccount.getBalance()) {
 			return sourceAccount;
 		}
 		return null;
 	}
 	
 	private static BankAccount getAccountDetails(long accountNum) throws Exception {
+		
 		boolean status = getBankAccountMap().containsValue(new BankAccount(accountNum));
 		if(status == true) {
 			for(BankAccount b : getBankAccountMap().values()) {
@@ -94,5 +101,19 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 			throw new AccountHandlingException("Invalid destination account number!!");
 		}
 		return null;
+	}
+	
+	public static void enrichBankDetails(BankAccount account) {
+		long accountNum = account.getAccountNumber();
+		String name = account.getAccountHolderName();
+		String type = account.getAccountType().toUpperCase();
+		String status = (account.isAccountActive()) ? "Active" : "Inactive";
+		String creation = StringUtils.getSdf().format(account.getAccountCreationDate());
+		double balance = account.getBalance();
+		System.out.println("==============================================================================");
+		System.out.println("|Account Number | Holder Name | Type  | Status | Creation Date | Balance      |");
+		System.out.println("|===============|=============|=======|========|===============|==============|");
+		System.out.printf("|%-15d|%-13s|%-7s|%-8s|%-15s|Rs.%-10.2f |%n", accountNum, name, type, status, creation, balance);
+		System.out.println("|===============|=============|=======|========|===============|==============|");
 	}
 }

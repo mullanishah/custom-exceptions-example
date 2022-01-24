@@ -24,6 +24,7 @@ public class AccountValidationUtils {
 	
 	//validate balance
 	public static void checkBalance(double balance) throws AccountHandlingException {
+		
 		if(balance < MIN_BALANCE) {
 			throw new AccountHandlingException("Insufficient balance to proceed for operation!!");
 		}
@@ -31,6 +32,7 @@ public class AccountValidationUtils {
 	
 	//validate withdrawal limit
 	public static void checkWithdrawalLimit(double amount) throws AccountHandlingException {
+		
 		if(amount > 20000) {
 			throw new AccountHandlingException("Withdrawal amount limit should not exceed Rs.20,000 for a day!!");
 		}
@@ -38,6 +40,7 @@ public class AccountValidationUtils {
 	
 	//validate deposite limit
 	public static void checkDepositeLimit(double amount) throws AccountHandlingException {
+		
 		if(amount > 100000) {
 			throw new AccountHandlingException("Deposite limit should not exceed Rs.1,00,000 for a day!!");
 		}
@@ -45,6 +48,7 @@ public class AccountValidationUtils {
 	
 	//validate account type 
 	public static void checkAccountType(String type) throws AccountHandlingException{
+		
 		switch(type.toLowerCase()) {
 		case "saving":
 		case "current":
