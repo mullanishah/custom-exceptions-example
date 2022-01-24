@@ -1,9 +1,6 @@
 package com.core.tester;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-
 import com.core.pojo.BankAccount;
 import com.core.pojo.PaymentCard;
 import com.core.service.BankAccountOperationsImpl;
@@ -11,14 +8,16 @@ import com.core.service.PaymentCardOperationsImpl;
 
 public class PaymentCardTester {
 
-	public static BankAccount performPaymentCardOperations(Scanner scanner, List<PaymentCard> paymentCardList, Map<PaymentCard, BankAccount> bankAccountMap) {
+	public static BankAccount performPaymentCardOperations(Scanner scanner) {
+		
 		try {
 			System.out.println("Hello user, ");
 			System.out.println("Please enter your payment card number and pin number: ");
 			PaymentCard card = new PaymentCard(scanner.next(), scanner.nextInt());
-			boolean loginStatus = PaymentCardOperationsImpl.login(card, paymentCardList);
+			boolean loginStatus = PaymentCardOperationsImpl.login(card);
 			if(true == loginStatus) {
-				BankAccount validatedBankAccount = BankAccountOperationsImpl.getAccountDetails(card, bankAccountMap);
+				BankAccount validatedBankAccount = BankAccountOperationsImpl.getAccountDetails(card);
+				validatedBankAccount.setValidatedCardDetails(card);
 				return validatedBankAccount;
 			}
 		} catch (Exception e) {

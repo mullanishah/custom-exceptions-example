@@ -1,13 +1,15 @@
 package com.core.service;
 
+import java.text.ParseException;
+
+import com.core.exceptions.AccountHandlingException;
 import com.core.pojo.BankAccount;
-import com.core.pojo.PaymentCard;
 
 public interface BankAccountOperations {
 
-	void deposite(long cardNumber, int pinNumber);
-	void withdraw(long cardNumber, int pinNumber);
-	void fundTransfer(long cardNumber, int pinNumber);
+	BankAccount deposite(BankAccount validatedBankAccount, double amount) throws AccountHandlingException, ParseException;
+	BankAccount withdraw(BankAccount validatedBankAccount, double amount) throws AccountHandlingException, ParseException;
+	void fundTransfer(long cardNumber, int pinNumber) throws AccountHandlingException;
 	
 	//pin change
 	//mini statement

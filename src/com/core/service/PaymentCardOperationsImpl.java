@@ -3,6 +3,7 @@ package com.core.service;
 import java.util.List;
 import com.core.exceptions.PaymentCardHandlingException;
 import com.core.pojo.PaymentCard;
+import static com.core.utils.DataHandlingUtils.*;
 
 public class PaymentCardOperationsImpl implements PaymentCardOperations {
 
@@ -15,7 +16,7 @@ public class PaymentCardOperationsImpl implements PaymentCardOperations {
 
 	@Override
 	public boolean updatePinNumber(int newPin, PaymentCard paymentCard, List<PaymentCard> paymentCardList) throws Exception {
-		boolean loginStatus = login(paymentCard, paymentCardList);
+		boolean loginStatus = login(paymentCard);
 		if(loginStatus) {
 			PaymentCard card = paymentCardList.get(paymentCardList.indexOf(paymentCard));
 			card.setPinNumber(newPin);
@@ -25,10 +26,10 @@ public class PaymentCardOperationsImpl implements PaymentCardOperations {
 	}
 	
 	//from main method
-	public static boolean login(PaymentCard paymentCard, List<PaymentCard> paymentCardList) throws PaymentCardHandlingException {
+	public static boolean login(PaymentCard paymentCard) throws PaymentCardHandlingException {
 		boolean loginStatus = false;
-		if(paymentCard != null && paymentCardList != null)
-			loginStatus = new PaymentCardOperationsImpl().validateUser(paymentCard, paymentCardList);
+		if(paymentCard != null)
+			loginStatus = new PaymentCardOperationsImpl().validateUser(paymentCard, getPaymentCardList());
 		if(loginStatus == true) 
 			return true;
 		else

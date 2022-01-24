@@ -20,7 +20,7 @@ public class SampleDataUtils {
 		paymentCardList.add(new PaymentCard("943285101762", 1123, "Dr.Davis Darwin", "(541) 373-3010"));
 		paymentCardList.add(new PaymentCard("593284176019", 9092, "Ms Emma Ford", "501 789 4325"));
 		paymentCardList.add(new PaymentCard("468056774132", 4519, "Richard Chamberlain", "800-122-1222"));
-		paymentCardList.add(new PaymentCard("77777", 7777, "test", "123 456 7890"));
+		paymentCardList.add(new PaymentCard("577777", 7777, "test", "123 456 7890"));
 		return paymentCardList;
 	}
 	
@@ -39,7 +39,7 @@ public class SampleDataUtils {
 					new BankAccount(593284176, "current", "Ms Emma Ford", StringUtils.getSdf().parse("27/02/1988"), 80238, true));
 			bankAccountMap.put(new PaymentCard("468056774132", 4519, "Richard Chamberlain", "800-122-1222"), 
 					new BankAccount(468056774, "saving", "Richard Chamberlain", StringUtils.getSdf().parse("27/02/1988"), 64730, true));
-			bankAccountMap.put(new PaymentCard("77777", 7777, "test", "123 456 7890"), 
+			bankAccountMap.put(new PaymentCard("577777", 7777, "test", "123 456 7890"), 
 					new BankAccount(123456789, "saving", "test", StringUtils.getSdf().parse("27/02/1988"), 50000, true));
 		} catch (ParseException e) {
 			e.printStackTrace();
