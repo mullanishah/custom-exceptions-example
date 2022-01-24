@@ -87,7 +87,7 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 		boolean status = getBankAccountMap().containsValue(new BankAccount(accountNum));
 		if(status == true) {
 			for(BankAccount b : getBankAccountMap().values()) {
-				if(b == new BankAccount(accountNum))
+				if(b.getAccountNumber() == accountNum)
 					return b;
 			}
 		} else {
