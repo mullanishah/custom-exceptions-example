@@ -7,6 +7,4 @@ public class PaymentCardHandlingException extends Exception {
 	public PaymentCardHandlingException(String message) {
 		super(message);
 	}
-
-	
 }

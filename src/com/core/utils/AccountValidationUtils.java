@@ -3,7 +3,6 @@ package com.core.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.core.exceptions.AccountHandlingException;
 
 public class AccountValidationUtils {
@@ -33,16 +32,16 @@ public class AccountValidationUtils {
 	//validate withdrawal limit
 	public static void checkWithdrawalLimit(double amount) throws AccountHandlingException {
 		
-		if(amount > 20000) {
-			throw new AccountHandlingException("Withdrawal amount limit should not exceed Rs.20,000 for a day!!");
+		if(amount > 35000) {
+			throw new AccountHandlingException("Withdrawal amount limit should not exceed Rs.35,000 for a day!!");
 		}
 	}
 	
-	//validate deposite limit
-	public static void checkDepositeLimit(double amount) throws AccountHandlingException {
+	//validate deposit limit
+	public static void checkDepositLimit(double amount) throws AccountHandlingException {
 		
 		if(amount > 100000) {
-			throw new AccountHandlingException("Deposite limit should not exceed Rs.1,00,000 for a day!!");
+			throw new AccountHandlingException("Deposit limit should not exceed Rs.1,00,000 for a day!!");
 		}
 	}
 	

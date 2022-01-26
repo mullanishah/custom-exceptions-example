@@ -1,5 +1,6 @@
 package com.core.tester;
 
+import java.io.Console;
 import java.util.Scanner;
 import com.core.pojo.BankAccount;
 import com.core.pojo.PaymentCard;
@@ -12,7 +13,7 @@ public class PaymentCardTester {
 		
 		try {
 			System.out.println("Hello user, ");
-			System.out.println("Please enter your payment card number and pin number: ");
+			System.out.println("Please enter your credentials (payment card and pin number): ");
 			PaymentCard card = new PaymentCard(scanner.next(), scanner.nextInt());
 			boolean loginStatus = PaymentCardOperationsImpl.login(card);
 			if(true == loginStatus) {
@@ -24,6 +25,18 @@ public class PaymentCardTester {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void sampleLogin(String... strings) {
+		Console console = System.console();
+		if(console == null) {
+			System.out.println("No console available");
+			return;
+		}
+		String cardno = console.readLine("Enter card number: ");
+		char[] pwd = console.readPassword("Enter pin number: ", "*");
+		
+		System.out.println("Card number: " + cardno + ", Pin" + pwd.toString());
 	}
 	
 }

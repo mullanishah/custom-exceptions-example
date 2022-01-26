@@ -1,8 +1,8 @@
+
 package com.core.utils;
 
 import java.util.List;
 import java.util.Map;
-
 import com.core.pojo.BankAccount;
 import com.core.pojo.PaymentCard;
 
@@ -10,7 +10,6 @@ public class DataHandlingUtils {
 
 	private static List<PaymentCard> paymentCardList = null;
 	private static Map<PaymentCard, BankAccount> bankAccountMap = null;
-	
 	//private static BankAccount validatedBankAccount = null;
 	
 	static {

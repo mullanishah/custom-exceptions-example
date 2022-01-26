@@ -13,24 +13,28 @@ import com.core.utils.StringUtils;
 public class BankAccountOperationsImpl implements BankAccountOperations {
 
 	@Override
-	public BankAccount deposite(BankAccount bankAccount, double amount) throws AccountHandlingException, ParseException {
-		
+	public BankAccount deposit(BankAccount bankAccount, double amount) throws AccountHandlingException, ParseException {
+		//validate type, minimum balance, account creation date and deposit limit
 		AccountValidationUtils.checkAccountType(bankAccount.getAccountType());
 		AccountValidationUtils.checkBalance(bankAccount.getBalance());
 		AccountValidationUtils.checkAccountCreationDate(bankAccount.getAccountCreationDate());
-		AccountValidationUtils.checkDepositeLimit(amount);
+		AccountValidationUtils.checkDepositLimit(amount);
+		//if all fine, set new balance
 		bankAccount.setBalance(bankAccount.getBalance() + amount);
+		
 		return bankAccount;
 	}
 
 	@Override
 	public BankAccount withdraw(BankAccount bankAccount, double amount) throws AccountHandlingException, ParseException {
-		
+		//validate type, minimum balance, account creation date and deposit limit
 		AccountValidationUtils.checkAccountType(bankAccount.getAccountType());
 		AccountValidationUtils.checkBalance(bankAccount.getBalance());
 		AccountValidationUtils.checkAccountCreationDate(bankAccount.getAccountCreationDate());
 		AccountValidationUtils.checkWithdrawalLimit(amount);
+		//if all fine, set new balance
 		bankAccount.setBalance(bankAccount.getBalance() - amount);
+		
 		return bankAccount;
 	}
 
@@ -43,13 +47,14 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 		double updatedSourceBalance = withdrawAmount(sourceAccount, amount);
 		if(updatedSourceBalance > -1) {
 			//deposit amt to destination account
-			updatedDestinationBalance = depositeAmount(destinationAccount, amount);
+			updatedDestinationBalance = depositAmount(destinationAccount, amount);
 		}
-		return new HashMap<String, Double>(Map.of("updatedSourceBalance", updatedSourceBalance, "updatedDestinationBalance", updatedDestinationBalance));
+		return new HashMap<String, Double>(Map.of("updatedSourceBalance", updatedSourceBalance, 
+					"updatedDestinationBalance", updatedDestinationBalance));
 	}
 
 	public static BankAccount getAccountDetails(PaymentCard paymentCard) {
-		
+		//get account based on payment card details -- needs ctor, equals method in pojo
 		BankAccount account = getBankAccountMap().get(paymentCard);
 		return account;
 	}
@@ -65,11 +70,11 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 		}
 	}
 	
-	public static Double depositeAmount(BankAccount validatedBankAccount, double amount) throws Exception {
+	public static Double depositAmount(BankAccount validatedBankAccount, double amount) throws Exception {
 		
-		BankAccount updatedAccount = new BankAccountOperationsImpl().deposite(validatedBankAccount, amount);
+		BankAccount updatedAccount = new BankAccountOperationsImpl().deposit(validatedBankAccount, amount);
 		if(updatedAccount == null) {
-			throw new AccountHandlingException("Something went wrong during deposite, please try again later.");
+			throw new AccountHandlingException("Something went wrong during deposit, please try again later.");
 		}else {
 			getBankAccountMap().replace(updatedAccount.getValidatedCardDetails(), updatedAccount); 
 			return updatedAccount.getBalance();
@@ -104,12 +109,14 @@ public class BankAccountOperationsImpl implements BankAccountOperations {
 	}
 	
 	public static void enrichBankDetails(BankAccount account) {
+		
 		long accountNum = account.getAccountNumber();
-		String name = account.getAccountHolderName();
-		String type = account.getAccountType().toUpperCase();
+		String name = account.getAccountHolderName().trim();
+		String type = account.getAccountType().trim().toUpperCase();
 		String status = (account.isAccountActive()) ? "Active" : "Inactive";
 		String creation = StringUtils.getSdf().format(account.getAccountCreationDate());
 		double balance = account.getBalance();
+		
 		System.out.println("==============================================================================");
 		System.out.println("|Account Number | Holder Name | Type  | Status | Creation Date | Balance      |");
 		System.out.println("|===============|=============|=======|========|===============|==============|");

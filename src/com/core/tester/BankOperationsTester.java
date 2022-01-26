@@ -15,43 +15,43 @@ public class BankOperationsTester {
 		try {
 			do {
 				System.out.println("****MENU***** "
-						+ "\n1.Account Information \n2.Withdraw \n3.Deposite "
+						+ "\n1.Account Information \n2.Cash Withdrawal \n3.Deposit"
 						+ "\n4.Fund Transfer \n5.Exit");
-				System.out.println("Enter your choice: ");
+				System.out.println("Enter transaction: ");
 				choice = scanner.nextInt();
 				switch(choice) {
 				case 1:
 					BankAccountOperationsImpl.enrichBankDetails(validatedBankAccount);
 					break;
 				case 2:
-					System.out.println("Account Num: " + validatedBankAccount.getAccountNumber());
-					System.out.println("Enter amount to be withdrawl: ");
+					getValidatedTitle(validatedBankAccount);
+					System.out.println("Enter amount to withdraw: ");
 					double withdrawalAmount = scanner.nextDouble();
 					double updatedBalance = BankAccountOperationsImpl.withdrawAmount(validatedBankAccount, withdrawalAmount);
-					System.out.println("Withdrawal successful!! Updated balance: " + updatedBalance);
+					System.out.println("Withdrawal successful!! Updated balance: Rs." + updatedBalance);
 					break;
 				case 3:
-					System.out.println("Account Num: " + validatedBankAccount.getAccountNumber());
-					System.out.println("Enter amount to be deposite: ");
+					getValidatedTitle(validatedBankAccount);
+					System.out.println("Enter amount to deposit: ");
 					double depositedAmount = scanner.nextDouble();
-					updatedBalance = BankAccountOperationsImpl.depositeAmount(validatedBankAccount, depositedAmount);
-					System.out.println("Deposite successful!! Updated balance: " + updatedBalance);
+					updatedBalance = BankAccountOperationsImpl.depositAmount(validatedBankAccount, depositedAmount);
+					System.out.println("Deposit successful!! Updated balance: Rs." + updatedBalance);
 					break;
 				case 4:
-					System.out.println("Account Num: " + validatedBankAccount.getAccountNumber());
-					System.out.println("Enter destination bank account num and amount: ");
+					getValidatedTitle(validatedBankAccount);
+					System.out.println("Enter destination account number and amount to transfer: ");
 					long destAccountNo = scanner.nextLong();	
 					double amount = scanner.nextDouble();
 					BankAccount srcAccount = BankAccountOperationsImpl.fundTransferAmount(validatedBankAccount, destAccountNo, amount);
 					System.out.println("Fund transfer successful!! Updated account: " + srcAccount);
 					break;
 				case 5:
+					System.out.println("======Exiting=======");
 					validatedBankAccount = null;
 					System.exit(0);
-					System.out.println("=====Exiting======");
 					break;
 				default:
-					System.out.println("Invalid choice!");
+					System.out.println("Invalid choice!!");
 					break;
 				}
 			}while(choice != 5);
@@ -60,4 +60,12 @@ public class BankOperationsTester {
 		}
 	}
 	
+	private static void getValidatedTitle(BankAccount validatedBankAccount) {
+		System.out.println("Hi " + validatedBankAccount.getAccountHolderName() + "(" + validatedBankAccount.getAccountNumber() + ")");
+	}
+	
 }
+//1.pin change     \t2.Fast Cash
+//3.Fund Transfer  \t4.Withdrawal
+//5.Mob.Connect    \t6.Balance Enquiry
+//7.Other services \t8.Mini Statement

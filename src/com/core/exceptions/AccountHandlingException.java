@@ -2,18 +2,10 @@ package com.core.exceptions;
 
 public class AccountHandlingException extends Exception {
 	
-	private static final long serialVersionUID = -4351113632690384920L;
-	private String message;
+	private static final long serialVersionUID = 1L;
 	
-	public AccountHandlingException(String message) {
-		super(message);
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
+	public AccountHandlingException(String msg) {
+		super(msg);
+		//System.out.println("Exception thrown: " + msg);
 	}
 }
